@@ -13342,7 +13342,7 @@
     <emu-clause id="sec-makeconstructor" type="abstract operation">
       <h1>
         MakeConstructor (
-          _F_: an ECMAScript function object or a built-in function object,
+          _F_: an ECMAScript function object or an exotic built-in function object,
           optional _writablePrototype_: a Boolean,
           optional _prototype_: an Object,
         ): ~unused~
@@ -13628,7 +13628,7 @@
       </h1>
       <dl class="header">
         <dt>for</dt>
-        <dd>a built-in function object _F_</dd>
+        <dd>an exotic built-in function object _F_</dd>
       </dl>
       <emu-alg>
         1. Return ? ExoticBuiltinCallOrConstruct(_F_, _thisArgument_, _argumentsList_, *undefined*).
@@ -13644,7 +13644,7 @@
       </h1>
       <dl class="header">
         <dt>for</dt>
-        <dd>a built-in function object _F_ (when the method is present)</dd>
+        <dd>an exotic built-in function object _F_ (when the method is present)</dd>
       </dl>
       <emu-alg>
         1. Return ? ExoticBuiltinCallOrConstruct(_F_, ~uninitialized~, _argumentsList_, _newTarget_).
@@ -13654,7 +13654,7 @@
     <emu-clause id="sec-exoticbuiltincallorconstruct" type="abstract operation">
       <h1>
         ExoticBuiltinCallOrConstruct (
-          _F_: a built-in function object,
+          _F_: an exotic built-in function object,
           _thisArgument_: an ECMAScript language value or ~uninitialized~,
           _argumentsList_: a List of ECMAScript language values,
           _newTarget_: a constructor or *undefined*,
