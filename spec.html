@@ -7127,6 +7127,32 @@
       </emu-alg>
     </emu-clause>
 
+    <emu-clause id="sec-iteratorclose2" type="abstract operation">
+      <h1>
+        IteratorClose2 (
+          _iteratorRecord_: an Iterator Record,
+          _completion_: either a normal completion containing an ECMAScript language value or an abrupt completion,
+        ): either a normal completion containing an ECMAScript language value or an abrupt completion
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It is used to notify an iterator that it should perform any actions it would normally perform when it has reached its completed state.</dd>
+      </dl>
+      <emu-alg>
+        1. Assert: Type(_iteratorRecord_.[[Iterator]]) is Object.
+        1. Let _iterator_ be _iteratorRecord_.[[Iterator]].
+        1. Let _innerResult_ be Completion(GetMethod(_iterator_, *"return"*)).
+        1. If _innerResult_.[[Type]] is ~normal~, then
+          1. Let _return_ be _innerResult_.[[Value]].
+          1. If _return_ is *undefined*, return ? _completion_.
+          1. Set _innerResult_ to Completion(Call(_return_, _iterator_)).
+        1. If _completion_.[[Type]] is ~throw~, return ? _completion_.
+        1. If _innerResult_.[[Type]] is ~throw~, return ? _innerResult_.
+        1. If Type(_innerResult_.[[Value]]) is not Object, throw a *TypeError* exception.
+        1. Return ? _completion_.
+      </emu-alg>
+    </emu-clause>
+
     <emu-clause id="sec-ifabruptcloseiterator" aoid="IfAbruptCloseIterator">
       <h1>IfAbruptCloseIterator ( _value_, _iteratorRecord_ )</h1>
       <p>IfAbruptCloseIterator is a shorthand for a sequence of algorithm steps that use an Iterator Record. An algorithm step of the form:</p>
@@ -22141,7 +22167,7 @@
                 1. Return ? _status_.
               1. Else,
                 1. Assert: _iterationKind_ is ~iterate~.
-                1. Return ? IteratorClose(_iteratorRecord_, _status_).
+                1. Return ? IteratorClose2(_iteratorRecord_, _status_).
             1. Let _result_ be the result of evaluating _stmt_.
             1. Set the running execution context's LexicalEnvironment to _oldEnv_.
             1. If LoopContinues(_result_, _labelSet_) is *false*, then
@@ -22151,7 +22177,7 @@
                 1. Assert: _iterationKind_ is ~iterate~.
                 1. Set _status_ to Completion(UpdateEmpty(_result_, _V_)).
                 1. If _iteratorKind_ is ~async~, return ? AsyncIteratorClose(_iteratorRecord_, _status_).
-                1. Return ? IteratorClose(_iteratorRecord_, _status_).
+                1. Return ? IteratorClose2(_iteratorRecord_, _status_).
             1. If _result_.[[Value]] is not ~empty~, set _V_ to _result_.[[Value]].
         </emu-alg>
       </emu-clause>
